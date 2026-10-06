@@ -8,6 +8,8 @@ import java.util.UUID.randomUUID
 value class SagaRunId(private val id: UUID) {
     override fun toString() = id.toString()
 
+    fun uuidValue() = id
+
     companion object {
         fun random() = SagaRunId(randomUUID())
     }

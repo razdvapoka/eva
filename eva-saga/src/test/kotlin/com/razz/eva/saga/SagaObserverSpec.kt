@@ -26,6 +26,7 @@ import io.opentelemetry.sdk.trace.export.SimpleSpanProcessor
 import kotlinx.coroutines.delay
 import kotlin.coroutines.cancellation.CancellationException
 import java.time.Duration
+import java.util.UUID.randomUUID
 import kotlin.time.Duration.Companion.milliseconds
 
 internal class SagaObserverSpec : ShouldSpec({
@@ -150,6 +151,15 @@ internal class SagaObserverSpec : ShouldSpec({
         observer.roots.distinct() shouldBe listOf(root)
         runs.map { it.second } shouldBe listOf(null, root, runs[1].first)
         runs[2].second shouldNotBe root
+    }
+    should("hand back the uuid it was built from") {
+        val uuid = randomUUID()
+
+        val runId = SagaRunId(uuid)
+
+        runId.uuidValue() shouldBe uuid
+        runId.toString() shouldBe uuid.toString()
+        SagaRunId.random().uuidValue() shouldNotBe uuid
     }
     should("keep the saga on course when an observer throws") {
         val observer = RecordingObserver()
