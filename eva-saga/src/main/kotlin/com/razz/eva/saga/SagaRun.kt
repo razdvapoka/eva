@@ -15,6 +15,7 @@ value class SagaRunId(private val id: UUID) {
 
 data class SagaRun<PRINCIPAL, PARAMS>(
     val id: SagaRunId,
+    val rootId: SagaRunId,
     val parentId: SagaRunId?,
     val attempt: Int,
     val sagaName: String,
@@ -22,5 +23,6 @@ data class SagaRun<PRINCIPAL, PARAMS>(
     val params: PARAMS,
 ) where PRINCIPAL : Principal<*> {
 
-    override fun toString() = "SagaRun[sagaName=$sagaName, id=$id, parentId=$parentId, attempt=$attempt]"
+    override fun toString() =
+        "SagaRun[sagaName=$sagaName, id=$id, rootId=$rootId, parentId=$parentId, attempt=$attempt]"
 }
